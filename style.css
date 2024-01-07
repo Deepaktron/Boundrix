@@ -1,0 +1,160 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px 0; /* Reduced header height */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.nav-list {
+    display: flex;
+}
+
+.nav-list li {
+    margin-right: 20px;
+}
+
+.auth-links {
+    display: flex;
+    align-items: center;
+}
+
+.auth-button {
+    background-color: #0066FF;
+    color: #fff;
+    border: none;
+    padding: 5px 13px; /* Original button size */
+    margin-left: 20px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+footer {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Login and Create Account Widgets */
+.login-widget,
+.create-account-widget {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.login-widget form,
+.create-account-widget form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-widget form label,
+.create-account-widget form label {
+    margin-bottom: 5px;
+}
+
+.login-widget form input,
+.create-account-widget form input {
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.login-widget form button,
+.create-account-widget form button {
+    background-color: #0066FF;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-widget form button:hover,
+.create-account-widget form button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.login-widget .close,
+.create-account-widget .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+}
+
+.create-account {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.create-account a {
+    color: #0066FF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.create-account a:hover {
+    text-decoration: underline;
+}
