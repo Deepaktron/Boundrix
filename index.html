@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Your Webpage Title</title>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <h1>Your Website</h1>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Solutions</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-links">
+                <button class="auth-button">Support</button>
+                <button id="auth-button" class="auth-button" onclick="isLoggedIn ? logout() : openLoginWidget()">Login</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Your main content goes here -->
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Your Website. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Login Widget -->
+<div id="login-widget" class="login-widget">
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" autocomplete="off" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" autocomplete="off" required>
+
+        <button type="button" onclick="login()">Login</button>
+        <p class="create-account">Don't have an account? <a href="#" id="create-now" onclick="transformToCreateAccount()">Create now</a></p>
+    </form>
+    <span class="close" onclick="closeLoginWidget()">&times;</span>
+</div>
+
+<!-- Create Account Widget -->
+<div id="create-account-widget" class="create-account-widget">
+    <form id="create-account-form" autocomplete="off">
+        <label for="new-username">New Username:</label>
+        <input type="text" id="new-username" name="new-username" required>
+
+        <label for="new-password">New Password:</label>
+        <input type="password" id="new-password" name="new-password" required>
+
+        <button type="button" onclick="createAccount()">Create Account</button>
+        <p class="back-to-login">Already have an account? <a href="#" onclick="transformToLogin()">Back to Login</a></p>
+    </form>
+    <span class="close" onclick="closeCreateAccountWidget()">&times;</span>
+</div>
+
+
+<!-- Script to handle the login and create account widgets -->
+<script>
+    // Assume initially not logged in
+    var isLoggedIn = false;
+
+    function openLoginWidget() {
+        var loginWidget = document.getElementById("login-widget");
+        loginWidget.style.display = "block";
+    }
+
+    function closeLoginWidget() {
+        var loginWidget = document.getElementById("login-widget");
+        loginWidget.style.display = "none";
+    }
+
+    function transformToCreateAccount() {
+        var loginWidget = document.getElementById("login-widget");
+        var createAccountWidget = document.getElementById("create-account-widget");
+
+        loginWidget.style.display = "none";
+        createAccountWidget.style.display = "block";
+    }
+
+    function transformToLogin() {
+        var loginWidget = document.getElementById("login-widget");
+        var createAccountWidget = document.getElementById("create-account-widget");
+
+        loginWidget.style.display = "block";
+        createAccountWidget.style.display = "none";
+    }
+
+    function closeCreateAccountWidget() {
+        var createAccountWidget = document.getElementById("create-account-widget");
+        createAccountWidget.style.display = "none";
+    }
+
+    function login() {
+        // Simulate successful login
+        isLoggedIn = true;
+        updateAuthButton();
+        // Perform login logic here
+        closeLoginWidget();
+    }
+
+    function createAccount() {
+        var newUsername = document.getElementById("new-username").value;
+        var newPassword = document.getElementById("new-password").value;
+
+        // Send a request to the server to create a new account.
+        fetch('/create_account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'username': newUsername,
+                'password': newPassword,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Close the create account widget after successfully creating the account
+            closeCreateAccountWidget();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function updateAuthButton() {
+        var authButton = document.getElementById("auth-button");
+
+        if (isLoggedIn) {
+            // If logged in, change button text to "Logout"
+            authButton.textContent = "Logout";
+        } else {
+            // If not logged in, change button text to "Login"
+            authButton.textContent = "Login";
+        }
+    }
+
+    function logout() {
+        // Implement your logout logic here
+        isLoggedIn = false;
+        updateAuthButton();
+    }
+</script>
+
+</body>
+</html>
