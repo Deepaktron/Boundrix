@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Your Webpage Title</title>
+    <style>
+        /* Add some basic styles for the red warning message */
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 
 <header>
     <div class="container">
         <div class="header-content">
-            <h1>Your Website</h1>
+            <h1>Boundrix</h1>
             <nav>
                 <ul class="nav-list">
                     <li><a href="#">About Us</a></li>
@@ -20,7 +27,7 @@
                 </ul>
             </nav>
             <div class="auth-links">
-                <button class="auth-button">Support</button>
+                <button class="auth-button" onclick="openBookingWidget()">Book Now</button>
                 <button id="auth-button" class="auth-button" onclick="isLoggedIn ? logout() : openLoginWidget()">Login</button>
             </div>
         </div>
@@ -35,11 +42,48 @@
     </div>
 </footer>
 
+<!-- Booking Widget Styles -->
+<div id="booking-widget" class="booking-widget">
+    <span class="close" onclick="closeBookingWidget()">&times;</span>
+    <form id="booking-form">
+        <div class="form-group">
+            <label for="full-name">Full Name:</label>
+            <input type="text" id="full-name" name="full-name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="booking-mobile-number">Mobile Number:</label>
+            <input type="tel" id="booking-mobile-number" name="booking-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+            <p id="booking-mobile-warning" class="error-message"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="service">Service:</label>
+            <select id="service" name="service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option value="service1">Service 1</option>
+                <option value="service2">Service 2</option>
+                <option value="service3">Service 3</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="delivery-date">Delivery Date:</label>
+            <input type="date" id="delivery-date" name="delivery-date" required>
+        </div>
+
+        <button type="button" onclick="submitBooking()">Submit Booking</button>
+    </form>
+</div>
+
+
+
 <!-- Login Widget -->
 <div id="login-widget" class="login-widget">
     <form id="login-form">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" autocomplete="off" required>
+        <label for="mobile-number">Mobile Number:</label>
+        <input type="tel" id="mobile-number" name="mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" autocomplete="off" required>
+        <p id="login-mobile-warning" class="error-message"></p>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" autocomplete="off" required>
@@ -53,8 +97,9 @@
 <!-- Create Account Widget -->
 <div id="create-account-widget" class="create-account-widget">
     <form id="create-account-form" autocomplete="off">
-        <label for="new-username">New Username:</label>
-        <input type="text" id="new-username" name="new-username" required>
+        <label for="new-mobile-number">New Mobile Number:</label>
+        <input type="tel" id="new-mobile-number" name="new-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+        <p id="create-account-mobile-warning" class="error-message"></p>
 
         <label for="new-password">New Password:</label>
         <input type="password" id="new-password" name="new-password" required>
@@ -65,23 +110,28 @@
     <span class="close" onclick="closeCreateAccountWidget()">&times;</span>
 </div>
 
-
 <!-- Script to handle the login and create account widgets -->
 <script>
     // Assume initially not logged in
     var isLoggedIn = false;
 
     function openLoginWidget() {
+        // Reset the form when opening the login widget
+        document.getElementById("login-form").reset();
         var loginWidget = document.getElementById("login-widget");
         loginWidget.style.display = "block";
     }
 
     function closeLoginWidget() {
+        // Reset the form when closing the login widget
+        document.getElementById("login-form").reset();
         var loginWidget = document.getElementById("login-widget");
         loginWidget.style.display = "none";
     }
 
     function transformToCreateAccount() {
+        // Reset the form when switching to the create account widget
+        document.getElementById("create-account-form").reset();
         var loginWidget = document.getElementById("login-widget");
         var createAccountWidget = document.getElementById("create-account-widget");
 
@@ -89,51 +139,66 @@
         createAccountWidget.style.display = "block";
     }
 
-    function transformToLogin() {
-        var loginWidget = document.getElementById("login-widget");
-        var createAccountWidget = document.getElementById("create-account-widget");
-
-        loginWidget.style.display = "block";
-        createAccountWidget.style.display = "none";
-    }
-
     function closeCreateAccountWidget() {
+        // Reset the form when closing the create account widget
+        document.getElementById("create-account-form").reset();
         var createAccountWidget = document.getElementById("create-account-widget");
         createAccountWidget.style.display = "none";
     }
 
     function login() {
-        // Simulate successful login
-        isLoggedIn = true;
-        updateAuthButton();
-        // Perform login logic here
-        closeLoginWidget();
+        // Get the values of the mobile number and password fields
+        var mobileNumber = document.getElementById("mobile-number").value;
+        var password = document.getElementById("password").value;
+
+        // Get the warning message element
+        var mobileWarningElement = document.getElementById("login-mobile-warning");
+
+        // Check if both fields are filled and mobile number is valid
+        if (mobileNumber && password) {
+            if (/^[\d]{10}$/.test(mobileNumber)) {
+                // Mobile number is valid
+                mobileWarningElement.textContent = "";
+                // Simulate successful login
+                isLoggedIn = true;
+                updateAuthButton();
+                // Perform login logic here
+                closeLoginWidget();
+            } else {
+                // Display a warning message for invalid mobile number
+                mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
+            }
+        } else {
+            // Display an alert or error message indicating missing fields
+            alert("Please fill in both mobile number and password.");
+        }
     }
 
     function createAccount() {
-        var newUsername = document.getElementById("new-username").value;
+        // Get the values of the new mobile number and new password fields
+        var newMobileNumber = document.getElementById("new-mobile-number").value;
         var newPassword = document.getElementById("new-password").value;
 
-        // Send a request to the server to create a new account.
-        fetch('/create_account', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                'username': newUsername,
-                'password': newPassword,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            // Close the create account widget after successfully creating the account
-            closeCreateAccountWidget();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        // Get the warning message element
+        var mobileWarningElement = document.getElementById("create-account-mobile-warning");
+
+        // Check if both fields are filled and mobile number is valid
+        if (newMobileNumber && newPassword) {
+            if (/^[\d]{10}$/.test(newMobileNumber)) {
+                // Mobile number is valid
+                mobileWarningElement.textContent = "";
+                // Simulate successful creation (replace with actual server-side logic)
+                alert("Account created successfully!");
+                // Close the create account widget after successfully creating the account
+                closeCreateAccountWidget();
+            } else {
+                // Display a warning message for invalid mobile number
+                mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
+            }
+        } else {
+            // Display an alert or error message indicating missing fields
+            alert("Please fill in both a valid 10-digit new mobile number and new password.");
+        }
     }
 
     function updateAuthButton() {
@@ -152,6 +217,38 @@
         // Implement your logout logic here
         isLoggedIn = false;
         updateAuthButton();
+    }
+
+
+    function openBookingWidget() {
+        document.getElementById("booking-form").reset();
+        var bookingWidget = document.getElementById("booking-widget");
+        bookingWidget.style.display = "block";
+    }
+
+    function closeBookingWidget() {
+        document.getElementById("booking-form").reset();
+        var bookingWidget = document.getElementById("booking-widget");
+        bookingWidget.style.display = "none";
+    }
+
+    function submitBooking() {
+        var fullName = document.getElementById("full-name").value;
+        var mobileNumber = document.getElementById("booking-mobile-number").value;
+        var selectedService = document.getElementById("service").value;
+        var deliveryDate = document.getElementById("delivery-date").value;
+
+        var mobileWarningElement = document.getElementById("booking-mobile-warning");
+
+        if (/^[\d]{10}$/.test(mobileNumber)) {
+            mobileWarningElement.textContent = "";
+
+            // Simulate successful submission (replace with actual server-side logic)
+            alert("Booking submitted successfully!");
+            closeBookingWidget();
+        } else {
+            mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
+        }
     }
 </script>
 
