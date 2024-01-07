@@ -82,45 +82,71 @@ footer p {
     margin: 0;
 }
 
+/* Common Style for Glass Morphism Effect */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.1); /* Adjust opacity as needed */
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25); /* Adjust opacity as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
 /* Login and Create Account Widgets */
 .login-widget,
-.create-account-widget {
+.create-account-widget,
+.booking-widget {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9); /* Adjust opacity as needed */
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25); /* Adjust opacity as needed */
+    border-radius: 10px; /* Adjust border-radius as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12);
     z-index: 1000;
+    text-align: left; /* Align content to the left */
+    width: 300px; /* Set a fixed width or adjust as needed */
 }
 
 .login-widget form,
-.create-account-widget form {
+.create-account-widget form,
+.booking-widget form {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    padding: 10px; /* Adjust the padding as needed */
 }
 
 .login-widget form label,
-.create-account-widget form label {
+.create-account-widget form label,
+.booking-widget form label {
     margin-bottom: 5px;
 }
 
 .login-widget form input,
-.create-account-widget form input {
+.create-account-widget form input,
+.booking-widget form input,
+.login-widget form select,
+.create-account-widget form select,
+.booking-widget form select,
+.login-widget form button,
+.create-account-widget form button,
+.booking-widget form button {
+    width: 100%; /* Make the elements full-width by default */
     padding: 8px;
     margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .login-widget form button,
-.create-account-widget form button {
+.create-account-widget form button,
+.booking-widget form button {
     background-color: #0066FF;
     color: #fff;
     border: none;
-    padding: 8px 16px;
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -129,13 +155,15 @@ footer p {
 }
 
 .login-widget form button:hover,
-.create-account-widget form button:hover {
+.create-account-widget form button:hover,
+.booking-widget form button:hover {
     background-color: #fff;
     color: #000;
 }
 
 .login-widget .close,
-.create-account-widget .close {
+.create-account-widget .close,
+.booking-widget .close {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -157,4 +185,45 @@ footer p {
 
 .create-account a:hover {
     text-decoration: underline;
+}
+
+/* Additional Styles for the Red Warning Message */
+.login-widget .error-message,
+.create-account-widget .error-message,
+.booking-widget .error-message {
+    color: red;
+    margin-top: 5px;
+}
+
+/* Booking Widget Styles */
+.booking-widget form input[type="text"],
+.booking-widget form input[type="tel"],
+.booking-widget form input[type="date"],
+.booking-widget form select {
+    width: calc(100% - 22px); /* Adjust the width to match the button */
+}
+
+.booking-widget form button {
+    background-color: #0066FF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.booking-widget form button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.booking-widget .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
 }
