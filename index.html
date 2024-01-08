@@ -1,256 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Your Webpage Title</title>
-    <style>
-        /* Add some basic styles for the red warning message */
-        .error-message {
-            color: red;
-            margin-top: 5px;
-        }
-    </style>
 </head>
+
 <body>
 
-<header>
-    <div class="container">
-        <div class="header-content">
-            <h1>Boundrix</h1>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Solutions</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="auth-links">
-                <button class="auth-button" onclick="openBookingWidget()">Book Now</button>
-                <button id="auth-button" class="auth-button" onclick="isLoggedIn ? logout() : openLoginWidget()">Login</button>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Boundrix</h1>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Solutions</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-links">
+                    <button id="book-now-button" class="auth-button" onclick="handleBookNow()">Book Now</button>
+                    <button id="auth-button" class="auth-button" onclick="isLoggedIn ? logout() : openLoginWidget()">Login</button>
+                </div>
             </div>
         </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="main-content">
+                <div class="main-content-text">
+                    <h2>Having no time to write <span id="screenplay-highlight">Screenplay?</span></h2>
+                    <h3>Just leave it to us. We'll take care of creating a compelling <span id="screenplay-2-highlight">Screenplay</span> for you.</h3>
+                    <div class="glass-box-container">
+                        <div class="glass-box">
+                            <p>Record</p>
+                            <img src="{{ url_for('static', filename='mages/record_image.png') }}" alt="Record Image">                        </div>
+
+                        <div class="glass-box">
+                            <p>Send</p>
+                            <img src="path/to/send_image.png" alt="Send Image">
+                        </div>
+                        <div class="glass-box">
+                            <p>Get</p>
+                            <img src="path/to/get_image.png" alt="Get Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Website. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Booking Widget Styles -->
+    <div id="booking-widget" class="booking-widget">
+        <span class="close" onclick="closeBookingWidget()">&times;</span>
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" name="full-name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="booking-mobile-number">Mobile Number:</label>
+                <input type="tel" id="booking-mobile-number" name="booking-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+                <p id="booking-mobile-warning" class="error-message"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Service:</label>
+                <select id="service" name="service" required>
+                    <option value="" disabled selected>Select a service</option>
+                    <option value="service1">Service 1</option>
+                    <option value="service2">Service 2</option>
+                    <option value="service3">Service 3</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="delivery-date">Delivery Date:</label>
+                <input type="date" id="delivery-date" name="delivery-date" required>
+            </div>
+
+            <button type="button" onclick="submitBooking()">Submit Booking</button>
+        </form>
     </div>
-</header>
 
-<!-- Your main content goes here -->
+    <!-- Login Widget -->
+    <div id="login-widget" class="login-widget">
+        <form id="login-form">
+            <label for="mobile-number">Mobile Number:</label>
+            <input type="tel" id="mobile-number" name="mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" autocomplete="off" required>
+            <p id="login-mobile-warning" class="error-message"></p>
 
-<footer>
-    <div class="container">
-        <p>&copy; 2024 Your Website. All rights reserved.</p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" autocomplete="off" required>
+
+            <button type="button" onclick="login()">Login</button>
+            <p class="create-account">Don't have an account? <a href="#" id="create-now" onclick="transformToCreateAccount()">Create now</a></p>
+        </form>
+        <span class="close" onclick="closeLoginWidget()">&times;</span>
     </div>
-</footer>
 
-<!-- Booking Widget Styles -->
-<div id="booking-widget" class="booking-widget">
-    <span class="close" onclick="closeBookingWidget()">&times;</span>
-    <form id="booking-form">
-        <div class="form-group">
-            <label for="full-name">Full Name:</label>
-            <input type="text" id="full-name" name="full-name" required>
-        </div>
+    <!-- Create Account Widget -->
+    <div id="create-account-widget" class="create-account-widget">
+        <form id="create-account-form" autocomplete="off">
+            <label for="new-mobile-number">New Mobile Number:</label>
+            <input type="tel" id="new-mobile-number" name="new-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
+            <p id="create-account-mobile-warning" class="error-message"></p>
 
-        <div class="form-group">
-            <label for="booking-mobile-number">Mobile Number:</label>
-            <input type="tel" id="booking-mobile-number" name="booking-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
-            <p id="booking-mobile-warning" class="error-message"></p>
-        </div>
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password" name="new-password" required>
 
-        <div class="form-group">
-            <label for="service">Service:</label>
-            <select id="service" name="service" required>
-                <option value="" disabled selected>Select a service</option>
-                <option value="service1">Service 1</option>
-                <option value="service2">Service 2</option>
-                <option value="service3">Service 3</option>
-            </select>
-        </div>
+            <button type="button" onclick="createAccount()">Create Account</button>
+            <p class="back-to-login">Already have an account? <a href="#" onclick="transformToLogin()">Back to Login</a></p>
+        </form>
+        <span class="close" onclick="closeCreateAccountWidget()">&times;</span>
+    </div>
 
-        <div class="form-group">
-            <label for="delivery-date">Delivery Date:</label>
-            <input type="date" id="delivery-date" name="delivery-date" required>
-        </div>
+    <!-- Script to handle the login and create account widgets -->
+    <script>
+        // Assume initially not logged in
+        var isLoggedIn = false;
 
-        <button type="button" onclick="submitBooking()">Submit Booking</button>
-    </form>
-</div>
+        function handleBookNow() {
+            // Check if the user is logged in before opening the booking widget
+            if (isLoggedIn) {
+                openBookingWidget();
+            } else {
+                // If not logged in, open the login widget
+                openLoginWidget();
+            }
+        }
 
+        function openLoginWidget() {
+            // Reset the form when opening the login widget
+            document.getElementById("login-form").reset();
+            var loginWidget = document.getElementById("login-widget");
+            loginWidget.style.display = "block";
+        }
 
+        function closeLoginWidget() {
+            // Reset the form when closing the login widget
+            document.getElementById("login-form").reset();
+            var loginWidget = document.getElementById("login-widget");
+            loginWidget.style.display = "none";
+        }
 
-<!-- Login Widget -->
-<div id="login-widget" class="login-widget">
-    <form id="login-form">
-        <label for="mobile-number">Mobile Number:</label>
-        <input type="tel" id="mobile-number" name="mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" autocomplete="off" required>
-        <p id="login-mobile-warning" class="error-message"></p>
+        function transformToCreateAccount() {
+            // Reset the form when switching to the create account widget
+            document.getElementById("create-account-form").reset();
+            var loginWidget = document.getElementById("login-widget");
+            var createAccountWidget = document.getElementById("create-account-widget");
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" autocomplete="off" required>
+            loginWidget.style.display = "none";
+            createAccountWidget.style.display = "block";
+        }
 
-        <button type="button" onclick="login()">Login</button>
-        <p class="create-account">Don't have an account? <a href="#" id="create-now" onclick="transformToCreateAccount()">Create now</a></p>
-    </form>
-    <span class="close" onclick="closeLoginWidget()">&times;</span>
-</div>
+        function closeCreateAccountWidget() {
+            // Reset the form when closing the create account widget
+            document.getElementById("create-account-form").reset();
+            var createAccountWidget = document.getElementById("create-account-widget");
+            createAccountWidget.style.display = "none";
+        }
 
-<!-- Create Account Widget -->
-<div id="create-account-widget" class="create-account-widget">
-    <form id="create-account-form" autocomplete="off">
-        <label for="new-mobile-number">New Mobile Number:</label>
-        <input type="tel" id="new-mobile-number" name="new-mobile-number" pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number" required>
-        <p id="create-account-mobile-warning" class="error-message"></p>
+        function login() {
+            // Get the values of the mobile number and password fields
+            var mobileNumber = document.getElementById("mobile-number").value;
+            var password = document.getElementById("password").value;
 
-        <label for="new-password">New Password:</label>
-        <input type="password" id="new-password" name="new-password" required>
+            // Get the warning message element
+            var mobileWarningElement = document.getElementById("login-mobile-warning");
 
-        <button type="button" onclick="createAccount()">Create Account</button>
-        <p class="back-to-login">Already have an account? <a href="#" onclick="transformToLogin()">Back to Login</a></p>
-    </form>
-    <span class="close" onclick="closeCreateAccountWidget()">&times;</span>
-</div>
+            // Check if both fields are filled and mobile number is valid
+            if (mobileNumber && password) {
+                if (/^[\d]{10}$/.test(mobileNumber)) {
+                    // Mobile number is valid
+                    mobileWarningElement.textContent = "";
+                    // Simulate successful login
+                    isLoggedIn = true;
+                    updateAuthButton();
+                    // Perform login logic here
+                    closeLoginWidget();
+                } else {
+                    // Display a warning message for an invalid mobile number
+                    mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
+                }
+            } else {
+                // Display an alert or error message indicating missing fields
+                alert("Please fill in both the mobile number and password.");
+            }
+        }
 
-<!-- Script to handle the login and create account widgets -->
-<script>
-    // Assume initially not logged in
-    var isLoggedIn = false;
+        function createAccount() {
+            // Get the values of the new mobile number and new password fields
+            var newMobileNumber = document.getElementById("new-mobile-number").value;
+            var newPassword = document.getElementById("new-password").value;
 
-    function openLoginWidget() {
-        // Reset the form when opening the login widget
+            // Get the warning message element
+            var mobileWarningElement = document.getElementById("create-account-mobile-warning");
+
+            // Check if both fields are filled and the mobile number is valid
+            if (newMobileNumber && newPassword) {
+                if (/^[\d]{10}$/.test(newMobileNumber)) {
+                    // Mobile number is valid
+                    mobileWarningElement.textContent = "";
+                    // Simulate successful creation (replace with actual server-side logic)
+                    alert("Account created successfully!");
+                    // Close the create account widget after successfully creating the account
+                    closeCreateAccountWidget();
+                } else {
+                    // Display a warning message for an invalid mobile number
+                    mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
+                }
+            } else {
+                // Display an alert or error message indicating missing fields
+                alert("Please fill in both a valid 10-digit new mobile number and a new password.");
+            }
+        }
+
+        function transformToLogin() {
+        // Reset the form when switching back to the login widget
         document.getElementById("login-form").reset();
         var loginWidget = document.getElementById("login-widget");
+        var createAccountWidget = document.getElementById("create-account-widget");
+
+        createAccountWidget.style.display = "none";
         loginWidget.style.display = "block";
     }
 
-    function closeLoginWidget() {
-        // Reset the form when closing the login widget
-        document.getElementById("login-form").reset();
-        var loginWidget = document.getElementById("login-widget");
-        loginWidget.style.display = "none";
-    }
+        function updateAuthButton() {
+            var authButton = document.getElementById("auth-button");
 
-    function transformToCreateAccount() {
-        // Reset the form when switching to the create account widget
-        document.getElementById("create-account-form").reset();
-        var loginWidget = document.getElementById("login-widget");
-        var createAccountWidget = document.getElementById("create-account-widget");
+            if (isLoggedIn) {
+                // If logged in, change the button text to "Logout"
+                authButton.textContent = "Logout";
+            } else {
+                // If not logged in, change the button text to "Login"
+                authButton.textContent = "Login";
+            }
+        }
 
-        loginWidget.style.display = "none";
-        createAccountWidget.style.display = "block";
-    }
+        function logout() {
+            // Implement your logout logic here
+            isLoggedIn = false;
+            updateAuthButton();
+        }
 
-    function closeCreateAccountWidget() {
-        // Reset the form when closing the create account widget
-        document.getElementById("create-account-form").reset();
-        var createAccountWidget = document.getElementById("create-account-widget");
-        createAccountWidget.style.display = "none";
-    }
+        function openBookingWidget() {
+            document.getElementById("booking-form").reset();
+            var bookingWidget = document.getElementById("booking-widget");
+            bookingWidget.style.display = "block";
+        }
 
-    function login() {
-        // Get the values of the mobile number and password fields
-        var mobileNumber = document.getElementById("mobile-number").value;
-        var password = document.getElementById("password").value;
+        function closeBookingWidget() {
+            document.getElementById("booking-form").reset();
+            var bookingWidget = document.getElementById("booking-widget");
+            bookingWidget.style.display = "none";
+        }
 
-        // Get the warning message element
-        var mobileWarningElement = document.getElementById("login-mobile-warning");
+        function submitBooking() {
+            var fullName = document.getElementById("full-name").value;
+            var mobileNumber = document.getElementById("booking-mobile-number").value;
+            var selectedService = document.getElementById("service").value;
+            var deliveryDate = document.getElementById("delivery-date").value;
 
-        // Check if both fields are filled and mobile number is valid
-        if (mobileNumber && password) {
+            var mobileWarningElement = document.getElementById("booking-mobile-warning");
+
             if (/^[\d]{10}$/.test(mobileNumber)) {
-                // Mobile number is valid
                 mobileWarningElement.textContent = "";
-                // Simulate successful login
-                isLoggedIn = true;
-                updateAuthButton();
-                // Perform login logic here
-                closeLoginWidget();
+
+                // Simulate successful submission (replace with actual server-side logic)
+                alert("Booking submitted successfully!");
+                closeBookingWidget();
             } else {
-                // Display a warning message for invalid mobile number
                 mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
             }
-        } else {
-            // Display an alert or error message indicating missing fields
-            alert("Please fill in both mobile number and password.");
         }
-    }
-
-    function createAccount() {
-        // Get the values of the new mobile number and new password fields
-        var newMobileNumber = document.getElementById("new-mobile-number").value;
-        var newPassword = document.getElementById("new-password").value;
-
-        // Get the warning message element
-        var mobileWarningElement = document.getElementById("create-account-mobile-warning");
-
-        // Check if both fields are filled and mobile number is valid
-        if (newMobileNumber && newPassword) {
-            if (/^[\d]{10}$/.test(newMobileNumber)) {
-                // Mobile number is valid
-                mobileWarningElement.textContent = "";
-                // Simulate successful creation (replace with actual server-side logic)
-                alert("Account created successfully!");
-                // Close the create account widget after successfully creating the account
-                closeCreateAccountWidget();
-            } else {
-                // Display a warning message for invalid mobile number
-                mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
-            }
-        } else {
-            // Display an alert or error message indicating missing fields
-            alert("Please fill in both a valid 10-digit new mobile number and new password.");
-        }
-    }
-
-    function updateAuthButton() {
-        var authButton = document.getElementById("auth-button");
-
-        if (isLoggedIn) {
-            // If logged in, change button text to "Logout"
-            authButton.textContent = "Logout";
-        } else {
-            // If not logged in, change button text to "Login"
-            authButton.textContent = "Login";
-        }
-    }
-
-    function logout() {
-        // Implement your logout logic here
-        isLoggedIn = false;
-        updateAuthButton();
-    }
-
-
-    function openBookingWidget() {
-        document.getElementById("booking-form").reset();
-        var bookingWidget = document.getElementById("booking-widget");
-        bookingWidget.style.display = "block";
-    }
-
-    function closeBookingWidget() {
-        document.getElementById("booking-form").reset();
-        var bookingWidget = document.getElementById("booking-widget");
-        bookingWidget.style.display = "none";
-    }
-
-    function submitBooking() {
-        var fullName = document.getElementById("full-name").value;
-        var mobileNumber = document.getElementById("booking-mobile-number").value;
-        var selectedService = document.getElementById("service").value;
-        var deliveryDate = document.getElementById("delivery-date").value;
-
-        var mobileWarningElement = document.getElementById("booking-mobile-warning");
-
-        if (/^[\d]{10}$/.test(mobileNumber)) {
-            mobileWarningElement.textContent = "";
-
-            // Simulate successful submission (replace with actual server-side logic)
-            alert("Booking submitted successfully!");
-            closeBookingWidget();
-        } else {
-            mobileWarningElement.textContent = "Please enter a valid 10-digit mobile number.";
-        }
-    }
-</script>
+    </script>
 
 </body>
+
 </html>
