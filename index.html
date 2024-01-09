@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="description" content="Your webpage description">
+    <meta name="keywords" content="your,keywords,here">
+
     <title>Your Webpage Title</title>
 </head>
 
@@ -28,31 +31,45 @@
             </div>
         </div>
     </header>
-
     <main>
         <div class="container">
             <div class="main-content">
                 <div class="main-content-text">
                     <h2>Having no time to write <span id="screenplay-highlight">Screenplay?</span></h2>
                     <h3>Just leave it to us. We'll take care of creating a compelling <span id="screenplay-2-highlight">Screenplay</span> for you.</h3>
-                    <div class="glass-box-container">
-                        <div class="glass-box">
-                            <p>Record</p>
-                            <img src="{{ url_for('static', filename='mages/record_image.png') }}" alt="Record Image">                        </div>
 
-                        <div class="glass-box">
-                            <p>Send</p>
-                            <img src="path/to/send_image.png" alt="Send Image">
-                        </div>
-                        <div class="glass-box">
-                            <p>Get</p>
-                            <img src="path/to/get_image.png" alt="Get Image">
+
+
+                    <div class="steps-section">
+                        <h4>Let's see how it works</h4>
+                        <div class="steps-container">
+                            <div class="step">
+                                <p class="step-number">1</p>
+                                <p class="step-name">Record</p>
+                                <p class="step-details">Record the voice note of your story.</p>
+                            </div>
+                            <div class="step">
+                                <p class="step-number">2</p>
+                                <p class="step-name">Send</p>
+                                <p class="step-details">Send us the voice note.</p>
+                            </div>
+                            <div class="step">
+                                <p class="step-number">3</p>
+                                <p class="step-name">Get !</p>
+                                <p class="step-details">Get your Scripts delivered on time.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <br><br><br>
     </main>
+<!-- ... (remaining code) ... -->
+
+
+
+
 
     <footer>
         <div class="container">
