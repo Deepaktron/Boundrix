@@ -25,6 +25,11 @@ header {
 
 header h1 {
     margin: 0;
+    font-style: italic;
+}
+
+#d{
+    color: #0066FF;
 }
 
 nav ul {
@@ -251,17 +256,53 @@ footer p {
 }
 
 .main-content-text h3 {
-    font-size: 24px; /* Adjust the font size as needed */
+    font-size: 22px; /* Adjust the font size as needed */
     font-weight: normal;
+    font-style: italic;
+    text-align: center;
+    padding-bottom: 1px;
+    font-family: 'SmoothFont', sans-serif; /* Replace 'SmoothFont' with the actual name of your preferred smooth font */
+}
+
+.main-content-text h4 {
+    font-size: 50px; /* Adjust the font size as needed */
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    padding-bottom: 1px;
+    font-family: 'SmoothFont', sans-serif; /* Replace 'SmoothFont' with the actual name of your preferred smooth font */
+}
+#write{
+    color:#0066FF
+}
+
+#shoot{
+    color:#0066FF
+}
+
+
+.main-content-text h5 {
+    font-size: 50px; /* Adjust the font size as needed */
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    padding-bottom: 1px;
+    font-family: 'SmoothFont', sans-serif; /* Replace 'SmoothFont' with the actual name of your preferred smooth font */
+}
+#p1 {
+    font-size: 20px; /* Adjust the font size as needed */
+
+    font-style: italic;
     text-align: center;
     padding-bottom: 1px;
     font-family: 'SmoothFont', sans-serif; /* Replace 'SmoothFont' with the actual name of your preferred smooth font */
 }
 
 
-.main-content-text h4 {
-    font-size: 30px; /* Adjust the font size as needed */
+.main-content-text h6 {
+    font-size: 50px; /* Adjust the font size as needed */
     font-weight: bold;
+    font-style: italic;
     text-align: center;
     padding-bottom: 1px;
     font-family: 'SmoothFont', sans-serif; /* Replace 'SmoothFont' with the actual name of your preferred smooth font */
@@ -347,3 +388,79 @@ footer p {
     transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Add this CSS in your existing style tag or CSS file */
+
+/* Styling for the custom box section */
+.custom-box {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Add this CSS in your existing style tag or CSS file */
+
+/* Common styling for the buttons */
+.custom-box {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Styling for each button */
+.box {
+    flex: 1;
+    height: 30px;
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #0066FF;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 0 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    font-family: 'SmoothFont', sans-serif, "AlteHass Grotesk";
+    font-size: 25px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.box .box-title {
+    font-weight: bold;
+    font-size: 23px;
+    font-family: 'SmoothFont', sans-serif, "AlteHass Grotesk";
+    font-style: italic;
+
+}
+
+
+
+/* Hover animation for each button */
+.box:hover {
+    background-color: #0066FF;
+    color: #fff;
+    transform: translateY(-5px); /* Adjust the translateY value for the desired lift effect */
+    
+    
+}
+
+.box:hover .box-text {
+    color: #fff;
+}
+
+/* Styling for the outer box */
+.outer-box {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the outer box */
+.outer-box:hover {
+    background-color: #e0e0e0;
+}
